@@ -43,13 +43,13 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         if len(prices)==0: 
             return 0
-        min_buying = prices[0]
-        max_profit = 0
+        min_buying = prices[0]  # 当前节点之前最小的buying price
+        max_profit = 0  # 全局可获得的最大利润
         for i in range(1,len(prices)):
-            profit = prices[i] - min_buying
+            profit = prices[i] - min_buying # 以当前节点作为selling price可获得的最大利润
             if prices[i]<min_buying: 
-                min_buying = prices[i] 
+                min_buying = prices[i]  # 更新min_buying
             if profit>max_profit:
-                max_profit = profit
+                max_profit = profit # 更新max_profit
         return max_profit
         
