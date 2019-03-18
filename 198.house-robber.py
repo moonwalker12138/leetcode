@@ -54,3 +54,13 @@ class Solution:
             else:
                 dp[i] += max(dp[i-2],dp[i-3])
         return max(dp)
+
+# --solution--
+# 类似问题
+#   53.maximum-subarray.py
+#   121.best-time-to-buy-and-sell-stock.py
+#
+# dp[i]: 以i作为结束节点可获得的最大收益
+# dp[i] = nums[i] if i==0 or i==1
+#       = nums[i] + nums[i-2] if i==2
+#       = nums[i] + max(dp[i-2],dp[i-3]) if i>2
