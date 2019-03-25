@@ -51,33 +51,27 @@
 #
 class Solution:
 
-    def canIWin(self, maxChoosableInteger, desiredTotal):
-        """
-        :type maxChoosableInteger: int
-        :type desiredTotal: int
-        :rtype: bool
-        """
+    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
         if (1 + maxChoosableInteger) * maxChoosableInteger/2 < desiredTotal:
             return False
         self.memo = {}
-        return self.helper(list(range(1, maxChoosableInteger + 1)), desiredTotal)
+        return self.helper(list(range(1,maxChoosableInteger+1)),desiredTotal)
 
-        
-    def helper(self, nums, desiredTotal):
-        
+    def helper(self,nums,total):
         hash = str(nums)
         if hash in self.memo:
             return self.memo[hash]
-        
-        if nums[-1] >= desiredTotal:
+        if nums[-1] >= total:
             return True
-            
         for i in range(len(nums)):
-            if not self.helper(nums[:i] + nums[i+1:], desiredTotal - nums[i]):
-                self.memo[hash]= True
-                return True
-        self.memo[hash] = False
-        return False
+            opponentWin = self.helper(nums[:i]+nums[i+1:], total-nums[i])
+            if not opponentWin:
+                self.memo[hash] = True
+                return self.memo[hash]
+        self.memo[hash] = False 
+        return self.memo[hash]
+
+
 if __name__=='__main__':
     solution = Solution()
     maxChoosableInteger = 10
