@@ -58,19 +58,20 @@ class Solution:
         return self.helper(list(range(1,maxChoosableInteger+1)),desiredTotal)
 
     def helper(self,nums,total):
-        hash = str(nums)
-        if hash in self.memo:
-            return self.memo[hash]
+        status = self.get_status(nums)
+        if status in self.memo:
+            return self.memo[status]
         if nums[-1] >= total:
             return True
         for i in range(len(nums)):
-            opponentWin = self.helper(nums[:i]+nums[i+1:], total-nums[i])
-            if not opponentWin:
-                self.memo[hash] = True
-                return self.memo[hash]
-        self.memo[hash] = False 
-        return self.memo[hash]
+            if not self.helper(nums[:i]+nums[i+1:], total-nums[i]):
+                self.memo[status] = True
+                return True
+        self.memo[status] = False 
+        return False
 
+    def get_status(self,nums):
+        return sum([2**n for n in nums])
 
 if __name__=='__main__':
     solution = Solution()
