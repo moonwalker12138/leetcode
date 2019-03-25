@@ -62,4 +62,9 @@ class Solution:
             index = ord(p[i]) - ord('a')
             count[index] = max(count[index],maxCur)
         return sum(count)
+
+# --solution--
+# count[i]: 以第i个字母(0-->'a';25-->'z')结尾的子串的最大个数
+# maxCur: 以当前位置结尾的连续字符串的长度(数值上等于以当前位置结尾的子串个数)
+# 最终答案即为count各元素求和
         
