@@ -59,9 +59,6 @@ class Solution:
         for c in s:
             if c not in idx: 
                 return False
-            # cur = self.search(idx[c],cur)
-            # if cur < 0:
-                # return False
             for id in idx[c]:
                 if id > cur:
                     cur = id
@@ -70,8 +67,16 @@ class Solution:
                 return False
         return True
 
-    def search(self,idx,cur):
-        for id in idx:
-            if id > cur:
-                return id
-        return -1
+# --solution--
+# idx: 遍历t，记录其中各个字符出现过的位置
+# cur: 遍历s，判断是否存在按s中各字符升序的位置组合(即下面示例中的'1->2->6')
+
+# s='abc'
+# idx={
+#         'a':[1,3],
+#         'b':[2,4,5],
+#         'c':[6,8],
+#         ...
+#         }
+
+# tips: collections.defaultdict() 语法糖
