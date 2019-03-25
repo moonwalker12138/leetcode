@@ -59,8 +59,14 @@ class Solution:
         for c in s:
             if c not in idx: 
                 return False
-            cur = self.search(idx[c],cur)
-            if cur < 0:
+            # cur = self.search(idx[c],cur)
+            # if cur < 0:
+                # return False
+            for id in idx[c]:
+                if id > cur:
+                    cur = id
+                    break
+            else:
                 return False
         return True
 
