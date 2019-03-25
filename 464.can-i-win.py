@@ -79,5 +79,12 @@ if __name__=='__main__':
     desiredTotal = 11
     print(solution.canIWin(maxChoosableInteger,desiredTotal))
 
+# --solution--
+# status: 由剩余的可选数决定，表示当前玩家所处状态
+# helper(): 当前玩家是否有可能获胜
+# 状态转移方程：
+#     helper(status_now) = any(not helper(status_next))
+#     即 当前玩家可能获胜 当且仅当 对手在下一状态至少一次失败
+
 
 
