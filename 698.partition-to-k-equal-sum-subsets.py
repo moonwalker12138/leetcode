@@ -56,3 +56,7 @@ class Solution:
         groups = [0] * k
         nums.sort()
         return search(groups)
+
+# --solution--
+# num = nums.pop() <--> nums.append(num) 和 groups[i] += num <--> groups[i] -= num, 用于控制状态回退
+# tip: 先将nums数组排序
