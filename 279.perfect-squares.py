@@ -30,9 +30,16 @@
 #
 class Solution:
     def numSquares(self, n: int) -> int:
-        dp = [0]
-        while len(dp) <= n:
-            dp += min(dp[-i*i] for i in range(1, int(len(dp)**0.5+1))) + 1,
+        # dp = [0]
+        # while len(dp) <= n:
+        #     dp += min(dp[-i*i] for i in range(1, int(len(dp)**0.5+1))) + 1,
+        # return dp[n]
+        dp = [None]*(n+1)
+        for i in range(1,len(dp)):
+            if int(i**0.5)**2==i:
+                dp[i] = 1
+            else:
+                dp[i] = min(dp[i-j*j] for j in range(1,int(i**0.5)+1)) + 1
         return dp[n]
 
 if __name__=='__main__':
@@ -40,3 +47,5 @@ if __name__=='__main__':
     n = 28
     res = solution.numSquares(n)
     print(res)
+
+# --solution--
