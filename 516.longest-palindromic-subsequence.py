@@ -40,22 +40,38 @@
 # One possible longest palindromic subsequence is "bb".
 # 
 #
+## top-down DP 
+# class Solution:
+#     def longestPalindromeSubseq(self, s: str) -> int:
+
+#         def helper(i,j):
+#             if dp[i][j]: return dp[i][j]
+#             if s[i] == s[j]:
+#                 if j - i == 1:
+#                     dp[i][j] = 2
+#                 else:
+#                     dp[i][j] = helper(i+1,j-1) + 2
+#             else:
+#                 dp[i][j] = max(helper(i,j-1), helper(i+1,j))
+#             return dp[i][j]
+
+#         n = len(s)
+#         dp = [[None if i!=j else 1 for j in range(n)] for i in range(n)]
+#         return helper(0,n-1)
+    
+# bottom-up DP
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
-
-        def helper(i,j):
-            if dp[i][j]: return dp[i][j]
-            if s[i] == s[j]:
-                if j - i == 1:
-                    dp[i][j] = 2
-                else:
-                    dp[i][j] = helper(i+1,j-1) + 2
-            else:
-                dp[i][j] = max(helper(i,j-1), helper(i+1,j))
-            return dp[i][j]
-
         n = len(s)
         dp = [[None if i!=j else 1 for j in range(n)] for i in range(n)]
-        return helper(0,n-1)
-    
-        
+        for i in list(range(n))[::-1]:
+            for j in range(i+1,n):
+                if s[i] == s[j]:
+                    if j - i == 1:
+                        dp[i][j] = 2
+                    else:
+                        dp[i][j] = dp[i+1][j-1] + 2
+                else:
+                    dp[i][j] = max(dp[i][j-1], dp[i+1][j])
+        return dp[0][n-1]
+
