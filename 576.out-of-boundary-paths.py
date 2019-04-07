@@ -52,16 +52,16 @@ class Solution:
     def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
         memo = {}
 
-        def helper(N,i_,j_):
-            key = (i_,j_,N)
+        def helper(N,i,j):
+            key = (i,j,N)
             if key in memo.keys():
                 return memo[key]
-            if i_ not in range(0,m) or j_ not in range(0,n):  # out of boundary
+            if i not in range(0,m) or j not in range(0,n):  # out of boundary
                 return 1
             elif N <= 0:    # within boundary but have no chance to move the ball
                 return 0
             else:
-                memo[key] = helper(N-1,i_-1,j_)+helper(N-1,i_+1,j_)+helper(N-1,i_,j_-1)+helper(N-1,i_,j_+1)
+                memo[key] = helper(N-1,i-1,j)+helper(N-1,i+1,j)+helper(N-1,i,j-1)+helper(N-1,i,j+1)
                 return memo[key]
 
         return helper(N,i,j) % (10**9 +7)
