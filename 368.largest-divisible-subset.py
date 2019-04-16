@@ -38,22 +38,38 @@
 #
 class Solution:
     def largestDivisibleSubset(self, nums):
-        if not nums:
-            return []
-        nums = sorted(nums)
-        cnt = [1] * len(nums)
-        parent = [-1] * len(nums)
-        for i in range(1,len(nums)):
-            prev = {cnt[j]:j for j in range(0,i) if nums[i] % nums[j] == 0}
-            if prev:
-                cnt[i] += max(prev)
-                parent[i] = prev[max(prev)]
-        res= []
-        idx = cnt.index(max(cnt))
-        while idx>=0:
-            res.append(nums[idx])
-            idx = parent[idx]
-        return res
+        dp = {}
+        for num in sorted(nums):
+            _ = [(v[0]+1,k) for k,v in dp.items() if num % k == 0]
+            dp[num] = max(_,key=lambda x:x[0],default=(1,None))
+            # k_largest = max(k_largest,dp[num][0])
+        key, _ = max(dp.items(),key=lambda x:x[1][0],default=(None,None))
+        ans = []
+        while key:
+            ans.append(key)
+            key = dp[key][1]
+        return ans
+
+
+
+    # def largestDivisibleSubset(self, nums):
+    #     if not nums:
+    #         return []
+    #     nums = sorted(nums)
+    #     cnt = [1] * len(nums)
+    #     parent = [-1] * len(nums)
+    #     for i in range(1,len(nums)):
+    #         prev = {cnt[j]:j for j in range(0,i) if nums[i] % nums[j] == 0}
+    #         if prev:
+    #             cnt[i] += max(prev)
+    #             parent[i] = prev[max(prev)]
+    #     res= []
+    #     idx = cnt.index(max(cnt))
+    #     while idx>=0:
+    #         res.append(nums[idx])
+    #         idx = parent[idx]
+    #     return res
+
 
 if __name__=='__main__':
     solution = Solution()
