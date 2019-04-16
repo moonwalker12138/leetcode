@@ -38,13 +38,13 @@
 #
 class Solution:
     def largestDivisibleSubset(self, nums):
-        dp = {}
+        dp = {} # dp --> {num:(len,parent)} 表示以num为最大数的子集的最大长度为len,上一节点为parent,若当前节点为根节点则parent==None
         for num in sorted(nums):
-            _ = [(v[0]+1,k) for k,v in dp.items() if num % k == 0]
-            dp[num] = max(_,key=lambda x:x[0],default=(1,None))
-            # k_largest = max(k_largest,dp[num][0])
-        key, _ = max(dp.items(),key=lambda x:x[1][0],default=(None,None))
+            _ = [(v[0]+1,k) for k,v in dp.items() if num % k == 0] # _: 能够容纳num的子集集合
+            dp[num] = max(_,key=lambda x:x[0],default=(1,None)) # default: 已有子集无法容纳num,num构成一个新的子集
+        key, _ = max(dp.items(),key=lambda x:x[1][0],default=(None,None))   # default: nums(dp)可能为空,此时key==None
         ans = []
+        # while: 根据链表找到所有节点
         while key:
             ans.append(key)
             key = dp[key][1]
