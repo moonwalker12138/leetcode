@@ -49,7 +49,7 @@ class Solution:
             # append the character at the position pointed by the 'right pointer' to the window
             char = s[r]
             window_counts[char] = window_counts.get(char,0)+1
-            if char in t and window_counts[char]==t_counts[char]:
+            if char in t_counts and window_counts[char]==t_counts[char]:
                 formed += 1
             # move left pointer forward in order to contract the window
             while l<=r and required==formed: 
@@ -60,7 +60,7 @@ class Solution:
                 # remove the character at the position pointed by the 'left pointer' from the window
                 char = s[l]
                 window_counts[char] -= 1
-                if char in t and window_counts[char]<t_counts[char]:
+                if char in t_counts and window_counts[char]<t_counts[char]:
                     formed -= 1
                 l += 1
             # move right pointer forward in order to expand the window
