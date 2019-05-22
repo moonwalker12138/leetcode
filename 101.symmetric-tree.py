@@ -49,15 +49,38 @@
 #         self.left = None
 #         self.right = None
 
+# # recursive
+# class Solution:
+#     def isSymmetric(self, root: TreeNode) -> bool:
+#         def isMirror(l,r):
+#             if l==None and r==None:
+#                 return True
+#             if l==None or r==None:
+#                 return False
+#             return l.val==r.val and isMirror(l.left,r.right) and isMirror(l.right,r.left)
+
+#         if root==None:
+#             return True
+#         return isMirror(root.left,root.right)
+
+# iterative
 class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
-        def isMirror(l,r):
-            if l==None and r==None:
-                return True
-            if l==None or r==None:
-                return False
-            return l.val==r.val and isMirror(l.left,r.right) and isMirror(l.right,r.left)
-
         if root==None:
             return True
-        return isMirror(root.left,root.right)
+        import queue
+        q = queue.Queue()
+        q.put(root.left)
+        q.put(root.right)
+        while not q.empty():
+            l = q.get()
+            r = q.get()
+            if l==None and r==None:
+                continue
+            if l==None or r==None or l.val!=r.val:
+                return False
+            q.put(l.left)
+            q.put(r.right)
+            q.put(l.right)
+            q.put(r.left)
+        return True
