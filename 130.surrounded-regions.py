@@ -74,7 +74,7 @@ class Solution:
             return
 
         to_flip = [(i,j) for i in range(row) for j in range(column) if board[i][j]=="O"]
-        visited = [[False for j in range(column)] for i in range(row)]
+        visited = [[False for j in range(column)] for i in range(row)]  # Important!!!
 
         for i in range(row):
             dfs(i,0)
