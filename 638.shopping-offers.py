@@ -79,11 +79,11 @@ class Solution:
 
         def dfs(needs):
             if needs not in memo.keys():
-                min_price = sum([needs[i]*price[i] for i in range(N)])
+                min_price = sum([needs[i] * price[i] for i in range(N)])
                 for spec in special:
                     remained = tuple([needs[j] - spec[j] for j in range(N)])
-                    if min(remained)>=0:
-                        min_price = min(min_price,spec[N]+dfs(remained))
+                    if min(remained) >= 0:
+                        min_price = min(min_price, spec[N] + dfs(remained))
                 memo[needs] = min_price
             return memo[needs]
 
