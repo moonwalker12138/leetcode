@@ -63,8 +63,6 @@
 class Solution:
     def findCircleNum(self, M):
         N = len(M)
-        if N == 1:
-            return 1
         visited = [False]*N
         num = 0
 
