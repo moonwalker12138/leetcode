@@ -35,42 +35,22 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Tree:
-    def __init__(self,nodes):
-        self.root = TreeNode(next(nodes))
-        q = queue.Queue()
-        q.put(self.root)
-        layer = 0
-        while not q.empty():
-            layer_nodes = [q.get() for _ in range(pow(2,layer))]
-            for node in layer_nodes:
-                node.left = next(nodes)
-
 import queue
 
 
 class Solution:
     def rightSideView(self, root):
-        layer = 0
         output = []
-        q = queue.Queue()
-        q.put(root)
-        while not q.empty():
-            layer_nodes = [q.get() for _ in range(pow(2,layer))]
-            if not any(layer_nodes):
-                break
-            for node in layer_nodes:
-                if node:
-                    q.put(node.left)
-                    q.put(node.right)
-                else:
-                    q.put(None)
-                    q.put(None)
-            for node in layer_nodes[::-1]:
-                if node:
-                    output.append(node.val)
-                    break
-            layer += 1
+
+        def dfs(node,depth):
+            if not node:
+                return
+            if depth==len(output):
+                output.append(node.val)
+            dfs(node.right,depth+1)
+            dfs(node.left,depth+1)
+
+        dfs(root,0)
         return output
 
 if __name__ == '__main__':
@@ -79,7 +59,8 @@ if __name__ == '__main__':
     root = TreeNode(1)
     root.left = TreeNode(2)
     root.right = TreeNode(3)
-    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+    root.right.right = TreeNode(4)
 
     ans = solution.rightSideView(root)
     print(ans)
