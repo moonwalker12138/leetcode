@@ -44,6 +44,15 @@
 #
 class Solution:
     def maxAreaOfIsland(self, grid):
+
+        def dfs(row,column):
+            if not (0<=row<rows and 0<=column<columns)\
+                    or grid[row][column]==0\
+                    or visited[row][column]:
+                return 0
+            visited[row][column] = True
+            return 1 + dfs(row-1,column) + dfs(row+1,column) + dfs(row,column-1) + dfs(row,column+1)
+
         rows = len(grid)
         if rows==0:
             return 0
@@ -51,27 +60,10 @@ class Solution:
         visited = [[False]*columns for _ in range(rows)]
         max_area = 0
 
-        def dfs(row,column):
-            directions = [(-1,0),(1,0),(0,-1),(0,1)]
-            coordinates = [(row+x,column+y) for x,y in directions]
-            area = 1
-            for r,c in coordinates:
-                if 0<=r<rows and 0<=c<columns and grid[r][c]==1 and not visited[r][c]:
-                    visited[r][c] = True
-                    area += dfs(r,c)
-            return area
-
-
         for row in range(rows):
             for column in range(columns):
-                if visited[row][column]:
-                    continue
-                visited[row][column] = True
-                if grid[row][column]==0:
-                    continue
-                else:
-                    area = dfs(row,column)
-                    max_area = area if area>max_area else max_area
+                if not visited[row][column] and grid[row][column]==1:
+                    max_area = max(dfs(row,column),max_area)
 
         return max_area
 
