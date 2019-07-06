@@ -51,10 +51,9 @@ class Solution:
                 else:
                     return
 
-            if start<=n:
-                l.append(start)
-                for i in range(start+1,10):
-                    dp(i,k-1,n-start,l.copy())
+            l.append(start)
+            for i in range(start+1,10):
+                dp(i,k-1,n-start,l.copy())
 
         for i in range(1,10):
             dp(i,k,n,[])
