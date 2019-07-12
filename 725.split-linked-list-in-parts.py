@@ -93,9 +93,8 @@ class Solution:
             if num==0:
                 parts.append(None)
             else:
+                parts.append(curr)
                 for i in range(num):
-                    if i==0:
-                        parts.append(curr)
                     prev = curr
                     curr = curr.next
                 prev.next = None
