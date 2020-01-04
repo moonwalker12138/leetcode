@@ -71,10 +71,15 @@ class UF:
     def __init__(self, N):
         self.pre = list(range(N))
     def find(self, x):
-        p = x
-        while self.pre[p]!=p:
-            p = self.pre[p]
-        return p
+        r = x
+        while self.pre[r]!=r:
+            r = self.pre[r]
+        cur = x
+        while cur!=r:
+            p = self.pre[cur]
+            self.pre[cur] = r
+            cur = p
+        return r
     def union(self, x, y):
         fx, fy = self.find(x), self.find(y)
         if fx!=fy:
