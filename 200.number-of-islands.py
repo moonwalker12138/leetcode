@@ -64,34 +64,55 @@ class UF:
         if fx!=fy:
             self.pre[fx] = fy
 from typing import List
+# find-union solution
+# class Solution:
+#     def numIslands(self, grid: List[List[str]]) -> int:
+#         if grid is None or len(grid)==0: return 0
+#         def get_id(row, col):
+#             return row * len(grid[0]) + col
+#         # convert matrix to edges representing connected islands
+#         edges = []
+#         for i in range(len(grid)):
+#             for j in range(len(grid[i])):
+#                 if grid[i][j]=="0": continue
+#                 cur_id = get_id(i ,j)
+#                 # self loop
+#                 edges.append((cur_id, cur_id))
+#                 for dir in [[1,0], [0,1]]:
+#                     x,y = i+dir[0], j+dir[1]
+#                     if 0<=x<len(grid) and 0<=y<len(grid[0]) and grid[x][y]=="1":
+#                         edges.append((cur_id, get_id(x,y)))
+#         # ? union-find init, too much memory usage
+#         uf = UF(len(grid) * len(grid[0]))
+#         for l,r in edges:
+#             uf.union(l,r)
+#         # count different root nodes
+#         roots = set()
+#         for l,r in edges:
+#             roots.add(uf.find(l))
+#             roots.add(uf.find(r))
+#         ans = len(roots)
+#         return ans
+
+# dfs solution
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        if grid is None or len(grid)==0: return 0
-        def get_id(row, col):
-            return row * len(grid[0]) + col
-        # convert matrix to edges representing connected islands
-        edges = []
+        def dfs(i, j, grid):
+            grid[i][j] = "0"
+            for dir in [[1,0],[-1,0],[0,1],[0,-1]]:
+                x,y = i+dir[0], j+dir[1]
+                if 0<=x<len(grid) and 0<=y<len(grid[0]) and grid[x][y]=="1":
+                    dfs(x, y, grid)
+
+        num = 0
         for i in range(len(grid)):
-            for j in range(len(grid[i])):
-                if grid[i][j]=="0": continue
-                cur_id = get_id(i ,j)
-                # self loop
-                edges.append((cur_id, cur_id))
-                for dir in [[1,0], [0,1]]:
-                    x,y = i+dir[0], j+dir[1]
-                    if 0<=x<len(grid) and 0<=y<len(grid[0]) and grid[x][y]=="1":
-                        edges.append((cur_id, get_id(x,y)))
-        # ? union-find init, too much memory usage
-        uf = UF(len(grid) * len(grid[0]))
-        for l,r in edges:
-            uf.union(l,r)
-        # count different root nodes
-        roots = set()
-        for l,r in edges:
-            roots.add(uf.find(l))
-            roots.add(uf.find(r))
-        ans = len(roots)
-        return ans
+            for j in range(len(grid[0])):
+                if grid[i][j]=="1":
+                    dfs(i, j, grid)
+                    num += 1
+            
+        return num
+
 if __name__ == "__main__":
     grid = [["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]
     ans = Solution().numIslands(grid)
