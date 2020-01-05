@@ -43,20 +43,39 @@ from collections import defaultdict
 #                 return n
 
 """ Boyer-Moore Voting Algorithm """
+# class Solution:
+#     def majorityElement(self, nums: List[int]) -> int:
+#         candidate = None
+#         count = 0
+#         for n in nums:
+#             if count==0:
+#                 candidate = n
+#                 count += 1
+#             else:
+#                 if n==candidate:
+#                     count += 1
+#                 else:
+#                     count -= 1
+#         return candidate
+
+""" devide-conquer """
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        candidate = None
-        count = 0
-        for n in nums:
-            if count==0:
-                candidate = n
-                count += 1
-            else:
-                if n==candidate:
-                    count += 1
-                else:
-                    count -= 1
-        return candidate
+        def divide_conquer(left, right):
+            if left==right:
+                return nums[left]
+            # divide
+            mid = (left + right) // 2
+            l_major = divide_conquer(left, mid)
+            r_major = divide_conquer(mid+1, right)
+            # combine
+            if l_major==r_major:
+                return l_major
+            l_num = sum(1 for i in range(left, right+1) if nums[i]==l_major)
+            r_num = sum(1 for i in range(left, right+1) if nums[i]==r_major)
+            return l_major if l_num>r_num else r_major
+        return divide_conquer(0, len(nums)-1)
+
 
 if __name__ == "__main__":
     nums = [1]
