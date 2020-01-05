@@ -33,14 +33,30 @@
 # @lc code=start
 from typing import List
 from collections import defaultdict
+""" hash list """
+# class Solution:
+#     def majorityElement(self, nums: List[int]) -> int:
+#         d = defaultdict(int)
+#         for n in nums:
+#             d[n] += 1
+#             if d[n] > len(nums)//2:
+#                 return n
+
+""" Boyer-Moore Voting Algorithm """
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        d = defaultdict(int)
+        candidate = None
+        count = 0
         for n in nums:
-            d[n] += 1
-            if d[n] > len(nums)//2:
-                return n
-
+            if count==0:
+                candidate = n
+                count += 1
+            else:
+                if n==candidate:
+                    count += 1
+                else:
+                    count -= 1
+        return candidate
 
 if __name__ == "__main__":
     nums = [1]
