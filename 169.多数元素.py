@@ -32,22 +32,15 @@
 
 # @lc code=start
 from typing import List
+from collections import defaultdict
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        nums = sorted(nums)
-        return nums[len(nums)//2]
-        # threshold = len(nums) // 2
-        # count = 0
-        # nums = [None] + nums
-        # for i in range(1,len(nums)):
-        #     if nums[i]==nums[i-1]:
-        #         count += 1
-        #         if count > threshold:
-        #             return nums[i]
-        #     else:
-        #         count = 1
-        # else:
-        #     return nums[i]
+        d = defaultdict(int)
+        for n in nums:
+            d[n] += 1
+            if d[n] > len(nums)//2:
+                return n
+
 
 if __name__ == "__main__":
     nums = [1]
