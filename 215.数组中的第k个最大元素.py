@@ -53,11 +53,11 @@ def partition_two_way_scanning(array:list, left:int, right:int):
         while left < right and array[right] >= pivot: 
             right -= 1
         # * Now if left < right, then right is index of the rightmost number smaller than pivot
-        array[left] = array[right]
+        if left < right: array[left] = array[right]
         while left < right and array[left] <= pivot:
             left += 1
         # * Now if left < right, then left is index of the leftmost number greater than pivot
-        array[right] = array[left]
+        if left < right: array[right] = array[left]
     array[left] = pivot
     return left
 
@@ -83,6 +83,47 @@ def quick_select(array:list, left:int, right:int, k_smallest:int, partition:call
     else:
         return quick_select(array, pivot_index+1, right, k_smallest, partition)
 
+def sort(array:list, left:int, right:int):
+    for i in range(left, right+1):
+        for j in range(i+1, right+1):
+            if array[j] < array[i]:
+                swap(array, j, i)
+    return array
+
+def findMedian(array:list, left:int, right:int):
+    """ 将array按照五个一组分组，求出每个分组的中位数，再将这些中位数按照五个一组分组，递归求解直至
+    最终只剩一个数，即为所求中位数
+    """
+    n_groups = 0
+    for i in range(left, right+1, 5):
+        if i + 4 <= right:
+            sort(array, i, i+4)
+            swap(array, left+n_groups, i+2)
+        else:
+            # 最后一组可能不足五个
+            sort(array, i, right)
+            swap(array, left+n_groups, i+(right-i+1)//2)
+        n_groups += 1
+    # * 返回值不重要，array[0]即为所求中位数
+    if n_groups == 1:
+        return array[0]
+    else:
+        return findMedian(array, left, left+n_groups-1)
+
+def BFPRT(array:list, left:int, right:int, k_smallest:int, partition:callable):
+    """ 和 quick_select 大体相同，仅仅改变了pivot的选择方式，每次选择五分中位数的中位数作为pivot，
+    该算法最差情况复杂度为 O(N)
+    """
+    if left == right: return array[left]
+    # findMedian 执行结束后 array[0] 即为所求中位数
+    findMedian(array, left, right)
+    pivot_index = partition(array, left, right)
+    if pivot_index == k_smallest:
+        return array[pivot_index]
+    elif pivot_index > k_smallest:
+        return BFPRT(array, left, pivot_index-1, k_smallest, partition)
+    else:
+        return BFPRT(array, pivot_index+1, right, k_smallest, partition)
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         return quick_select(nums, 0, len(nums)-1, len(nums)-k, partition_two_way_scanning)
