@@ -97,11 +97,11 @@ def findMedian(array:list, left:int, right:int):
     n_groups = 0
     for i in range(left, right+1, 5):
         if i + 4 <= right:
-            sort(array, i, i+4)
+            quick_sort(array, i, i+4, partition_two_way_scanning)
             swap(array, left+n_groups, i+2)
         else:
             # 最后一组可能不足五个
-            sort(array, i, right)
+            quick_sort(array, i, right, partition_two_way_scanning)
             swap(array, left+n_groups, i+(right-i+1)//2)
         n_groups += 1
     # * 返回值不重要，array[0]即为所求中位数
