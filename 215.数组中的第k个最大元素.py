@@ -126,6 +126,6 @@ def BFPRT(array:list, left:int, right:int, k_smallest:int, partition:callable):
         return BFPRT(array, pivot_index+1, right, k_smallest, partition)
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        return BFPRT(nums, 0, len(nums)-1, len(nums)-k, partition_two_way_scanning)
+        return quick_select(nums, 0, len(nums)-1, len(nums)-k, partition_two_way_scanning)
 # @lc code=end
 
