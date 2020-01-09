@@ -40,37 +40,55 @@
 #
 
 # @lc code=start
+# class Solution:
+#     def searchMatrix(self, matrix, target):
+#         """
+#         :type matrix: List[List[int]]
+#         :type target: int
+#         :rtype: bool
+#         """
+#         # special case
+#         if not matrix: return False
+        
+#         def search(matrix, border, target):
+#             row_start, row_end, col_start, col_end = border
+#             # border doesn't contain elements
+#             if row_start > row_end or col_start > col_end: return False
+#             # target is smaller than the minimum or larger than the maximum
+#             if target < matrix[row_start][col_start] or target > matrix[row_end][col_end]: return False
+#             # border contains only one element
+#             if row_start == row_end and col_start == col_end: return matrix[row_start][col_start] == target
+#             # devide-conquer
+#             row_mid = (row_start + row_end) // 2
+#             col_mid = (col_start + col_end) // 2
+#             borders = [
+#                 (row_start, row_mid, col_start, col_mid),   # top left block
+#                 (row_mid+1, row_end, col_start, col_mid),   # bottom left block
+#                 (row_start, row_mid, col_mid+1, col_end),   # top right block
+#                 (row_mid+1, row_end, col_mid+1, col_end)   # bottom right block
+#             ]
+#             for border in borders:
+#                 ans = search(matrix, border, target)
+#                 if ans:
+#                     return True
+#             return False
+
+#         return search(matrix, (0, len(matrix)-1, 0, len(matrix[0])-1), target)
+
 class Solution:
     def searchMatrix(self, matrix, target):
-        """
-        :type matrix: List[List[int]]
-        :type target: int
-        :rtype: bool
-        """
-        # special case
         if not matrix: return False
-        
-        def search(matrix, border, target):
-            row_start, row_end, col_start, col_end = border
-            if row_start > row_end or col_start > col_end: return False
-            if target < matrix[row_start][col_start] or target > matrix[row_end][col_end]: return False
-            if row_start == row_end and col_start == col_end: return matrix[row_start][col_start] == target
-            # devide-conquer
-            row_mid = (row_start + row_end) // 2
-            col_mid = (col_start + col_end) // 2
-            borders = [
-                (row_start, row_mid, col_start, col_mid),   # top left block
-                (row_mid+1, row_end, col_start, col_mid),   # bottom left block
-                (row_start, row_mid, col_mid+1, col_end),   # top right block
-                (row_mid+1, row_end, col_mid+1, col_end)   # bottom right block
-            ]
-            for border in borders:
-                ans = search(matrix, border, target)
-                if ans:
-                    return True
-            return False
-
-        return search(matrix, (0, len(matrix)-1, 0, len(matrix[0])-1), target)
+        x = len(matrix) - 1
+        y = 0
+        while x >= 0 and y < len(matrix[0]):
+            if matrix[x][y] == target: 
+                return True
+            elif matrix[x][y] > target:
+                x -= 1
+            else:
+                y += 1
+        return False
+            
 
 if __name__ == "__main__":
     matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
