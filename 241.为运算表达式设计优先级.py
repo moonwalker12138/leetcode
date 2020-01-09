@@ -40,11 +40,7 @@
 # @lc code=start
 class Solution:
     def diffWaysToCompute(self, input: str) -> List[int]:
-        operators = []
-        for i,c in enumerate(input):
-            if c in '+-*':
-                operators.append(i)
-        if not operators:
+        if input.isdigit():
             return [int(input)]
 
         def compute(opd1, opd2, opt):
@@ -56,13 +52,14 @@ class Solution:
                 return opd1 * opd2
 
         ans = []
-        for op in operators:
+        for i, c in enumerate(input):
             # devide-conquer
-            left_ans = self.diffWaysToCompute(input[:op])
-            right_ans = self.diffWaysToCompute(input[op+1:])
-            for opd1 in left_ans:
-                for opd2 in right_ans:
-                    ans.append(compute(opd1, opd2, input[op]))
+            if c in '+-*':
+                left_part = self.diffWaysToCompute(input[:i])
+                right_part = self.diffWaysToCompute(input[i+1:])
+                for opd1 in left_part:
+                    for opd2 in right_part:
+                        ans.append(compute(opd1, opd2, c))
         return ans
 
 # @lc code=end
