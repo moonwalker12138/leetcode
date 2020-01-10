@@ -35,15 +35,20 @@
 #
 
 # @lc code=start
+from typing import List
 from collections import defaultdict
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        d = [(word, ''.join(sorted(word))) for word in strs]
         ans = defaultdict(list)
-        for word, _hash in d:
-            ans[_hash].append(word)
-        ans = ans.values()
-        return ans
+        for s in strs:
+            key = ''.join(sorted(s))
+            ans[key].append(s)
+        return ans.values()
+
+if __name__ == "__main__":
+    strs = ["eat","tea","tan","ate","nat","bat"]
+    ans = Solution().groupAnagrams(strs)
+    print(ans)
         
 # @lc code=end
 
