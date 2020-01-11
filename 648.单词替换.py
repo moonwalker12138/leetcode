@@ -42,6 +42,7 @@
 
 # @lc code=start
 from collections import defaultdict
+from typing import List
 
 """ hierarchical hash table
 runtime beats 92.91%
@@ -64,16 +65,60 @@ memory usage beats 30.61%
 #         sent = ' '.join(sent)
 #         return sent
 
+""" normal hash table
+runtime beats 40.43% 
+memory usage beats 30.61%
+"""
+# class Solution:
+#     def replaceWords(self, dict: List[str], sentence: str) -> str:
+#         rootset = set(dict)
+#         sentence = sentence.split()
+#         for i, word in enumerate(sentence):
+#             for j in range(1, len(word)):
+#                 if word[:j] in rootset:
+#                     sentence[i] = word[:j]
+#                     break
+#         return ' '.join(sentence)
+            
+""" trie
+"""
 class Solution:
     def replaceWords(self, dict: List[str], sentence: str) -> str:
-        rootset = set(dict)
+        # constuct trie
+        END = -1
+        trie = {}
+        for word in dict:
+            cur = trie
+            for c in word:
+                if c not in cur:
+                    cur[c] = {}
+                cur = cur[c]
+            cur[END] = True
+
         sentence = sentence.split()
         for i, word in enumerate(sentence):
-            for j in range(1, len(word)):
-                if word[:j] in rootset:
-                    sentence[i] = word[:j]
+            # find prefix in trie
+            cur = trie
+            for j, c in enumerate(word):
+                if c in cur :
+                    if END in cur[c]:
+                        sentence[i] = word[:j+1]
+                        break
+                    else:
+                        cur = cur[c]
+                else:
                     break
-        return ' '.join(sentence)
-            
+        sentence = ' '.join(sentence)
+        return sentence
+
+if __name__ == "__main__":
+    dict = ["a", "aa", "aaa", "aaaa"]
+    sentence = "a aa a aaaa aaa aaa aaa aaaaaa bbb baba ababa"
+    ans = Solution().replaceWords(dict, sentence)
+    print(ans)
+
+
+
+
 # @lc code=end
 
