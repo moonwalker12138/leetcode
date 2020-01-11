@@ -42,23 +42,38 @@
 
 # @lc code=start
 from collections import defaultdict
+
+""" hierarchical hash table
+runtime beats 92.91%
+memory usage beats 30.61%
+"""
+# class Solution:
+#     def replaceWords(self, dict: List[str], sentence: str) -> str:
+#         roots = defaultdict(set)
+#         for word in dict:
+#             roots[len(word)].add(word)
+#         roots = [(length, roots[length]) for length in sorted(roots.keys())]
+#         sent = []
+#         for word in sentence.split():
+#             for length, root in roots:
+#                 if len(word) >= length and word[:length] in root:
+#                     sent.append(word[:length])
+#                     break
+#             else:
+#                 sent.append(word)
+#         sent = ' '.join(sent)
+#         return sent
+
 class Solution:
     def replaceWords(self, dict: List[str], sentence: str) -> str:
-        roots = defaultdict(set)
-        for word in dict:
-            roots[len(word)].add(word)
-        roots = [(length, roots[length]) for length in sorted(roots.keys())]
-        sent = []
-        for word in sentence.split():
-            for length, root in roots:
-                if len(word) >= length and word[:length] in root:
-                    sent.append(word[:length])
+        rootset = set(dict)
+        sentence = sentence.split()
+        for i, word in enumerate(sentence):
+            for j in range(1, len(word)):
+                if word[:j] in rootset:
+                    sentence[i] = word[:j]
                     break
-            else:
-                sent.append(word)
-        sent = ' '.join(sent)
-        return sent
-
-        
+        return ' '.join(sentence)
+            
 # @lc code=end
 
