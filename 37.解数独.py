@@ -45,6 +45,11 @@
 
 # @lc code=start
 from typing import List
+""" 
+6/6 cases passed (904 ms)
+Your runtime beats 5.9 % of python3 submissions
+Your memory usage beats 23.04 % of python3 submissions (13.3 MB)
+"""
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
         """
