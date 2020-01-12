@@ -57,11 +57,10 @@ class Solution:
         """
         # calculate block id according to (i,j)
         block_id = "i // 3 * 3 + j // 3"
-        # record already used digits
-        rows = [set() for _ in range(9)]
-        columns = [set() for _ in range(9)]
-        blocks = [set() for _ in range(9)]
-        full = set(map(str,range(1,10)))
+        # record available digits
+        rows = [set(map(str,range(1,10))) for _ in range(9)]
+        columns = [set(map(str,range(1,10))) for _ in range(9)]
+        blocks = [set(map(str,range(1,10))) for _ in range(9)]
         # record empty position
         unsolved = []
         # traverse board
@@ -69,9 +68,9 @@ class Solution:
             for j in range(9):
                 cur = board[i][j]
                 if cur != '.':
-                    rows[i].add(cur)
-                    columns[j].add(cur)
-                    blocks[eval(block_id)].add(cur)
+                    rows[i].remove(cur)
+                    columns[j].remove(cur)
+                    blocks[eval(block_id)].remove(cur)
                 else:
                     unsolved.append((i,j))
         # 
@@ -80,22 +79,22 @@ class Solution:
                 return True
             i, j = unsolved[index]
             # generate candidates(digits available) for unsolved (i,j)
-            candidates = full - rows[i] - columns[j] - blocks[eval(block_id)]
+            candidates = rows[i] & columns[j] & blocks[eval(block_id)]
             if len(candidates) == 0:
                 return False
             for candidate in candidates:
                 # forward
-                rows[i].add(candidate)
-                columns[j].add(candidate)
-                blocks[eval(block_id)].add(candidate)
+                rows[i].remove(candidate)
+                columns[j].remove(candidate)
+                blocks[eval(block_id)].remove(candidate)
                 if backtracking(index+1):
                     board[i][j] = candidate
                     return True
                 else:
                     # backward
-                    rows[i].remove(candidate)
-                    columns[j].remove(candidate)
-                    blocks[eval(block_id)].remove(candidate)
+                    rows[i].add(candidate)
+                    columns[j].add(candidate)
+                    blocks[eval(block_id)].add(candidate)
         
         backtracking(0)
         return 
