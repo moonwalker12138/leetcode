@@ -61,6 +61,7 @@ class Solution:
         rows = [set() for _ in range(9)]
         columns = [set() for _ in range(9)]
         blocks = [set() for _ in range(9)]
+        full = set(map(str,range(1,10)))
         # record empty position
         unsolved = []
         # traverse board
@@ -79,7 +80,7 @@ class Solution:
                 return True
             i, j = unsolved[index]
             # generate candidates(digits available) for unsolved (i,j)
-            candidates = set(map(str,range(1,10))) - rows[i] - columns[j] - blocks[eval(block_id)]
+            candidates = full - rows[i] - columns[j] - blocks[eval(block_id)]
             if len(candidates) == 0:
                 return False
             for candidate in candidates:
