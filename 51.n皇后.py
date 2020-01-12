@@ -56,6 +56,7 @@ class Solution:
         def backtrack(row, solution):
             if row == n:
                 solutions.append(solution)
+                return
             for col in range(n):
                 main_diagnoal = row - col
                 sub_diagnoal = row + col
