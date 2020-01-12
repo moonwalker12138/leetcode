@@ -71,7 +71,7 @@ class Solution:
                     cur = int(cur)
                     rows[i].remove(cur)
                     columns[j].remove(cur)
-                    blocks[eval(block_id)].remove(cur)
+                    blocks[i//3*3+j//3].remove(cur)
                 else:
                     unsolved.append((i,j))
         # 
@@ -80,14 +80,14 @@ class Solution:
                 return True
             i, j = unsolved[index]
             # generate candidates(digits available) for unsolved (i,j)
-            candidates = rows[i] & columns[j] & blocks[eval(block_id)]
+            candidates = rows[i] & columns[j] & blocks[i//3*3+j//3]
             if len(candidates) == 0:
                 return False
             for candidate in candidates:
                 # forward
                 rows[i].remove(candidate)
                 columns[j].remove(candidate)
-                blocks[eval(block_id)].remove(candidate)
+                blocks[i//3*3+j//3].remove(candidate)
                 if backtracking(index+1):
                     board[i][j] = str(candidate)
                     return True
@@ -95,7 +95,7 @@ class Solution:
                     # backward
                     rows[i].add(candidate)
                     columns[j].add(candidate)
-                    blocks[eval(block_id)].add(candidate)
+                    blocks[i//3*3+j//3].add(candidate)
         
         backtracking(0)
         return 
