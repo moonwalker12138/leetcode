@@ -58,9 +58,9 @@ class Solution:
         # calculate block id according to (i,j)
         block_id = "i // 3 * 3 + j // 3"
         # record available digits
-        rows = [set(map(str,range(1,10))) for _ in range(9)]
-        columns = [set(map(str,range(1,10))) for _ in range(9)]
-        blocks = [set(map(str,range(1,10))) for _ in range(9)]
+        rows = [set(range(1,10)) for _ in range(9)]
+        columns = [set(range(1,10)) for _ in range(9)]
+        blocks = [set(range(1,10)) for _ in range(9)]
         # record empty position
         unsolved = []
         # traverse board
@@ -68,6 +68,7 @@ class Solution:
             for j in range(9):
                 cur = board[i][j]
                 if cur != '.':
+                    cur = int(cur)
                     rows[i].remove(cur)
                     columns[j].remove(cur)
                     blocks[eval(block_id)].remove(cur)
@@ -88,7 +89,7 @@ class Solution:
                 columns[j].remove(candidate)
                 blocks[eval(block_id)].remove(candidate)
                 if backtracking(index+1):
-                    board[i][j] = candidate
+                    board[i][j] = str(candidate)
                     return True
                 else:
                     # backward
