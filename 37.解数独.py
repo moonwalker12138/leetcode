@@ -55,8 +55,6 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        # calculate block id according to (i,j)
-        block_id = "i // 3 * 3 + j // 3"
         # record available digits
         rows = [set(range(1,10)) for _ in range(9)]
         columns = [set(range(1,10)) for _ in range(9)]
